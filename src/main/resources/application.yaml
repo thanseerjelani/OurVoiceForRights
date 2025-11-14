@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: mgnrega-dashboard
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mgnrega_db
+    username: postgres
+    password: Mypostgresql@2001
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # Cache configuration
+  cache:
+    type: simple
+    cache-names: states, districts, performance
+
+# MGNREGA API Configuration
+mgnrega:
+  api:
+    base-url: https://api.data.gov.in/resource
+    resource-id: "ee03643a-ee4c-48c2-ac30-9f2ff26ab722"
+    api-key: "579b464db66ec23bdd000001d5d3cdfe068640a16e0dbe0e788f2a82"
+    retry:
+      max-attempts: 3
+      delay: 2000
+
+# Scheduler Configuration
+scheduler:
+  data-refresh:
+    cron: "0 0 2 * * ?" # Every day at 2 AM
+
+# Server Configuration
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.mgnrega.dashboard: DEBUG
+    org.springframework.web: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+#GEOCODING:
+app:
+  name: MGNREGA-Dashboard
+  contact:
+    email: thanseerjelani@gmail.com

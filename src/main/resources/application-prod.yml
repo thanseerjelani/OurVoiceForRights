@@ -1,0 +1,76 @@
+# application-prod.yml
+spring:
+  application:
+    name: mgnrega-dashboard
+
+  datasource:
+    url: ${DATABASE_URL}  # Railway will provide this
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # Change to 'validate' after first deployment
+    show-sql: false  # Disable in production
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  cache:
+    type: simple
+    cache-names: states, districts, performance
+
+# MGNREGA API Configuration
+mgnrega:
+  api:
+    base-url: https://api.data.gov.in/resource
+    resource-id: "ee03643a-ee4c-48c2-ac30-9f2ff26ab722"
+    api-key: ${MGNREGA_API_KEY}  # Use environment variable
+    retry:
+      max-attempts: 3
+      delay: 2000
+
+# Scheduler Configuration
+scheduler:
+  data-refresh:
+    cron: "0 0 2 * * ?"
+
+# Server Configuration
+server:
+  port: ${PORT:8080}  # Railway provides PORT
+  error:
+    include-message: always
+    include-binding-errors: always
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+
+# Logging - Less verbose in production
+logging:
+  level:
+    root: INFO
+    com.mgnrega.dashboard: INFO
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# CORS Configuration
+cors:
+  allowed-origins: https://voicesforrights.netlify.app,http://localhost:5173,http://localhost:3000
+
+# Geocoding
+app:
+  name: MGNREGA-Dashboard
+  contact:
+    email: thanseerjelani@gmail.com

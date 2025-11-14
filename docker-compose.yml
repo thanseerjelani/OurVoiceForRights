@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: mgnrega-postgres
+    environment:
+      POSTGRES_DB: mgnrega_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mgnrega-network
+
+  backend:
+    build: .
+    container_name: mgnrega-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mgnrega_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      MGNREGA_API_KEY: "579b464db66ec23bdd000001d5d3cdfe068640a16e0dbe0e788f2a82"
+      MGNREGA_RESOURCE_ID: "ee03643a-ee4c-48c2-ac30-9f2ff26ab722"
+      APP_CONTACT_EMAIL: thanseerjelani@gmail.com
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - mgnrega-network
+
+networks:
+  mgnrega-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
