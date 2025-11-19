@@ -1,21 +1,28 @@
-# application-prod.yml
+# application-prod.yml - FOR RENDER + NEON.DB DEPLOYMENT
 spring:
+  config:
+    activate:
+      on-profile: prod
+
   application:
     name: mgnrega-dashboard
 
   datasource:
-    # Use Railway's DATABASE_URL directly
     url: ${DATABASE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 5
       minimum-idle: 2
-      connection-timeout: 30000
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1800000
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: false
+      ddl-auto: update  # Change to 'validate' after first successful deployment
+    show-sql: false  # Disabled in production
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -33,7 +40,7 @@ mgnrega:
   api:
     base-url: https://api.data.gov.in/resource
     resource-id: "ee03643a-ee4c-48c2-ac30-9f2ff26ab722"
-    api-key: ${MGNREGA_API_KEY}  # Use environment variable
+    api-key: ${MGNREGA_API_KEY}
     retry:
       max-attempts: 3
       delay: 2000
@@ -45,7 +52,7 @@ scheduler:
 
 # Server Configuration
 server:
-  port: ${PORT:8080}  # Railway provides PORT
+  port: ${PORT:8080}
   error:
     include-message: always
     include-binding-errors: always
@@ -53,21 +60,21 @@ server:
     enabled: true
     mime-types: application/json,application/xml,text/html,text/xml,text/plain
 
-# Logging - Less verbose in production
+# Logging - Production level
 logging:
   level:
     root: INFO
     com.mgnrega.dashboard: INFO
-    org.springframework.web: INFO
+    org.springframework.web: WARN
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 
 # CORS Configuration
 cors:
-  allowed-origins: https://voicesforrights.netlify.app,http://localhost:5173,http://localhost:3000
+  allowed-origins: ${CORS_ALLOWED_ORIGINS}
 
-# Geocoding
+# App Configuration
 app:
-  name: MGNREGA-Dashboard
+  name: ${APP_NAME:MGNREGA-Dashboard}
   contact:
-    email: thanseerjelani@gmail.com
+    email: ${APP_CONTACT_EMAIL:thanseerjelani@gmail.com}
