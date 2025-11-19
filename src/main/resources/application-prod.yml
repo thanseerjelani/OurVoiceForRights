@@ -35,6 +35,11 @@ spring:
     type: simple
     cache-names: states, districts, performance
 
+  # Disable static resources (frontend is separate on Netlify)
+  web:
+    resources:
+      add-mappings: false
+
 # MGNREGA API Configuration
 mgnrega:
   api:
@@ -69,12 +74,18 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 
-# CORS Configuration
-cors:
-  allowed-origins: https://voicesforrights.netlify.app
-
 # App Configuration
 app:
   name: ${APP_NAME:MGNREGA-Dashboard}
   contact:
     email: ${APP_CONTACT_EMAIL:thanseerjelani@gmail.com}
+
+# Management endpoints (optional but recommended)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized
