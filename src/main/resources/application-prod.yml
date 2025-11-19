@@ -21,7 +21,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update  # Change to 'validate' after first successful deployment
+      ddl-auto: validate
     show-sql: false  # Disabled in production
     properties:
       hibernate:
