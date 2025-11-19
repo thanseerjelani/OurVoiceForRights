@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://voicesforrights.netlify.app")
 public class MgnregaController {
 
     private final PerformanceService performanceService;

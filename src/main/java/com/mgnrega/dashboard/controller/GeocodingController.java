@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://voicesforrights.netlify.app")
 public class GeocodingController {
 
     private final GeocodingService geocodingService;
