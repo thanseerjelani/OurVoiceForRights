@@ -246,29 +246,32 @@ curl -X POST https://ourvoiceforrights.onrender.com/api/sync
 
 ---
 
-## 🤝 Contributing
+🤝 Contributing
 
-This is a personal project aimed at social impact. Contributions are welcome!
+This is a personal project built for social impact.
+At this time, external contributions are not open, but you may open issues for:
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
+Bug reports
 
----
+Feature suggestions
+
+Improvements
+
+Data errors
+
+Thank you for supporting the initiative!
 
 ## 📞 Contact
 
 **Developer**: Thanseer Jelani  
 **Email**: thanseerjelani@gmail.com  
-**LinkedIn**: [Connect with me](https://linkedin.com/in/yourprofile)  
+**LinkedIn**: [Connect with me](https://www.linkedin.com/in/thanseer-jelani-520768255/)  
 **Frontend**: [https://voicesforrights.netlify.app](https://voicesforrights.netlify.app)
 
 ---
 
-## 📄 License
-
+📌 License: All Rights Reserved  
+You may **view** the code but you may NOT **copy, modify, or distribute** it.
 This project is built for public good and social impact.
 
 ---
