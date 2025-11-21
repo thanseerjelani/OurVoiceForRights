@@ -203,13 +203,35 @@ public class PerformanceService {
                 .build();
     }
 
+    /**
+     * Calculate performance level based on average days of employment.
+     *
+     * MGNREGA Context:
+     * - Legal guarantee: 100 days per household per year
+     * - National average: ~45-50 days
+     * - Good performance: 50+ days
+     * - Excellent performance: 60+ days
+     *
+     * Thresholds:
+     * - ABOVE_AVERAGE: >= 50 days (good achievement)
+     * - MODERATE: 35-49 days (acceptable, near national average)
+     * - BELOW_AVERAGE: < 35 days (needs improvement)
+     */
     private String calculatePerformanceLevel(Performance p) {
         if (p.getAverageDaysEmployment() != null) {
             double days = p.getAverageDaysEmployment().doubleValue();
-            if (days >= 80) return "ABOVE_AVERAGE";
-            if (days >= 50) return "MODERATE";
+
+            // ABOVE_AVERAGE: 50+ days (50% of legal guarantee)
+            if (days >= 50) return "ABOVE_AVERAGE";
+
+            // MODERATE: 35-49 days (acceptable performance)
+            if (days >= 35) return "MODERATE";
+
+            // BELOW_AVERAGE: < 35 days (needs improvement)
             return "BELOW_AVERAGE";
         }
+
+        // Default to MODERATE if data unavailable
         return "MODERATE";
     }
 
